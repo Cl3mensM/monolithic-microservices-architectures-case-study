@@ -1,6 +1,10 @@
 # Ignore PostgreSQL database files
 /data
-# Ignore Django cached files
+# Ignore Django cached and migration files
 __pycache__
+**/migrations/*.py
+!**/migrations/__init__.py
 # Ignore macOS system files
 .DS_Store
+# Ignore the OSMnx cache
+/cache
