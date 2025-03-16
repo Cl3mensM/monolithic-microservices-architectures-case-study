@@ -1,0 +1,6 @@
+# Ignore PostgreSQL database files
+/data
+# Ignore Django cached files
+__pycache__
+# Ignore macOS system files
+.DS_Store
