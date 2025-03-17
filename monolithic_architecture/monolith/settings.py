@@ -40,6 +40,8 @@ INSTALLED_APPS = [
 
     # Created apps
     'routes',
+    'disruptions',
+    'stations',
 ]
 
 MIDDLEWARE = [
