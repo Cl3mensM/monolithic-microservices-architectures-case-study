@@ -1,3 +1,3 @@
 from django.db import models
 
-# Create your models here.
+# Add model for station arrival times, if needed
