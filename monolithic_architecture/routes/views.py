@@ -10,6 +10,17 @@ def route_request(request):
     try:
         data = json.loads(request.body)
 
+        required_fields = ['user', 'latitude',
+                           'longitude', 'bus', 'tram', 'subway']
+        missing_fields = [
+            field for field in required_fields if field not in data]
+
+        if missing_fields:
+            return JsonResponse(
+                {"status": f"Missing required fields: {', '.join(missing_fields)}"},
+                status=400
+            )
+
         user = data.get('user')
         latitude = data.get('latitude')
         longitude = data.get('longitude')
@@ -17,15 +28,25 @@ def route_request(request):
         tram = data.get('tram')
         subway = data.get('subway')
 
-        response_data = {
-            'start': "Test",
-            'end': "Test",
-            'message': f"Following data received from {user}: Latitude: {latitude}, Longitude: {longitude}, Bus: {bus}, Tram: {tram}, Subway: {subway}",
-        }
+        if bus is False and tram is False and subway is False:
+            return JsonResponse({"status": "Please select at least one mode of transportation"}, status=400)
+
+        # response_data = {
+        #     'start': "Test",
+        #     'end': "Test",
+        #     'message': f"Following data received from {user}: Latitude: {latitude}, Longitude: {longitude}, Bus: {bus}, Tram: {tram}, Subway: {subway}",
+        # }
 
         # return render(request, 'routes.html', response_data)
 
-        return JsonResponse(response_data, status=200)
+        route, stop = routing.route_for_user_request(
+            latitude, longitude, bus, tram, subway)
+        response_data = {
+            "station": stop["name"],
+            "route": route
+        }
+
+        return JsonResponse(response_data, safe=False, status=200)
 
     except json.JSONDecodeError:
-        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+        return JsonResponse({"status": "Bad Request, invalid request body."}, status=400)

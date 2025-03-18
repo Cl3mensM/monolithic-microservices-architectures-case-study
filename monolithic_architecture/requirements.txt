@@ -2,3 +2,4 @@ Django>=5.1
 psycopg2-binary
 djangorestframework
 osmnx
+scikit-learn
