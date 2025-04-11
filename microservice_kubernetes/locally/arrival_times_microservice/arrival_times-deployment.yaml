@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: arrival-times-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: arrival-times
+  template:
+    metadata:
+      labels:
+        app: arrival-times
+    spec:
+      containers:
+        - name: arrival-times
+          image: arrival_times_service:latest
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+          ports:
+            - containerPort: 8000

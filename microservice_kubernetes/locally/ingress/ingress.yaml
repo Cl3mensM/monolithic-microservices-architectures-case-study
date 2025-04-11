@@ -26,3 +26,19 @@ spec:
                 name: show-disruption-service
                 port:
                   number: 80
+          - path: /arrival-times(/|$)(.*)
+            # pathType: Prefix
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: arrival-times-service
+                port:
+                  number: 80
+          - path: /add-disruption(/|$)(.*)
+            # pathType: Prefix
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: add-disruption-service
+                port:
+                  number: 80
