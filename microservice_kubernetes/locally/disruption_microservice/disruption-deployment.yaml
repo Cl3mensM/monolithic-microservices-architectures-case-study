@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: add-disruption-deployment
+  name: disruption-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: add-disruption
+      app: disruption
   template:
     metadata:
       labels:
-        app: add-disruption
+        app: disruption
     spec:
       containers:
-        - name: add-disruption
-          image: add_disruption_service:latest
+        - name: disruption
+          image: disruption_service:latest
           imagePullPolicy: IfNotPresent
           command: ["/bin/sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
           ports:

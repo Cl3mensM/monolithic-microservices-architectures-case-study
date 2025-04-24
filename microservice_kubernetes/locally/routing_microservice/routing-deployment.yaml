@@ -17,6 +17,6 @@ spec:
           image: routing_service-routing:latest
           imagePullPolicy: IfNotPresent
           # command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
-          command: ["/bin/sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+          command: ["/bin/sh", "-c", "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
           ports:
             - containerPort: 8000

@@ -10,7 +10,7 @@ spec:
     - host: localhost
       http:
         paths:
-          - path: /routes(/|$)(.*)
+          - path: /api/routes(/|$)(.*)
             # pathType: Prefix
             pathType: ImplementationSpecific
             backend:
@@ -18,27 +18,20 @@ spec:
                 name: routing-service
                 port:
                   number: 80
-          - path: /show-disruption(/|$)(.*)
+          - path: /api/disruptions(/|$)(.*)
             # pathType: Prefix
             pathType: ImplementationSpecific
             backend:
               service:
-                name: show-disruption-service
+                name: disruption-service
                 port:
                   number: 80
-          - path: /arrival-times(/|$)(.*)
+          # For the arrival times microservice
+          - path: /api/stations(/|$)(.*)
             # pathType: Prefix
             pathType: ImplementationSpecific
             backend:
               service:
                 name: arrival-times-service
-                port:
-                  number: 80
-          - path: /add-disruption(/|$)(.*)
-            # pathType: Prefix
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: add-disruption-service
                 port:
                   number: 80
