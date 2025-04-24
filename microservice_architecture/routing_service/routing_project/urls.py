@@ -22,5 +22,5 @@ from routing.views import route_request
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('ingress/', ingress_test_view, name='ingress_test_view'),
-    path('routes/', route_request),
+    path('', route_request),
 ]
