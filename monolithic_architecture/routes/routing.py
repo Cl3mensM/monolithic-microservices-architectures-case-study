@@ -1,30 +1,41 @@
 import osmnx as ox
 import pandas as pd
+import geopandas as gpd
+import os
 from disruptions.models import Disruption
 
 PLACE = "Innere Stadt, Vienna, Austria"
+FILE_BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+
+def load_from_map_data(filename):
+    """Load a file from the map_data folder."""
+    return os.path.join(FILE_BASE_DIR, "map_data", filename)
 
 
 def get_graph():
-    G = ox.graph.graph_from_place(PLACE, network_type="walk")
+    # G = ox.graph.graph_from_place(PLACE, network_type="walk")
+    graph_path = os.path.join(
+        FILE_BASE_DIR, "map_data", "innere_stadt.graphml")
+    G = ox.load_graphml(graph_path)
     return G
 
 
 def get_bus_stops():
-    bus = ox.features.features_from_place(PLACE, tags={"highway": "bus_stop"})
-    return bus
+    # bus = ox.features.features_from_place(PLACE, tags={"highway": "bus_stop"})
+    return gpd.read_file(load_from_map_data("bus_stops.geojson"))
 
 
 def get_subway_stops():
-    subway = ox.features.features_from_place(
-        PLACE, tags={"railway": "station", "station": "subway"})
-    return subway
+    # subway = ox.features.features_from_place(
+    #     PLACE, tags={"railway": "station", "station": "subway"})
+    return gpd.read_file(load_from_map_data("subway_stops.geojson"))
 
 
 def get_tram_stops():
-    tram = ox.features.features_from_place(
-        PLACE, tags={"railway": "tram_stop"})
-    return tram
+    # tram = ox.features.features_from_place(
+    #     PLACE, tags={"railway": "tram_stop"})
+    return gpd.read_file(load_from_map_data("tram_stops.geojson"))
 
 
 def calculate_route(start, end, G):
