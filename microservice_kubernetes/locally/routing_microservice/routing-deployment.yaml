@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: routing-deployment
 spec:
-  replicas: 1
+  replicas: 5
   selector:
     matchLabels:
       app: routing
@@ -16,7 +16,13 @@ spec:
         - name: routing
           image: routing_service-routing:latest
           imagePullPolicy: IfNotPresent
-          # command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
           command: ["/bin/sh", "-c", "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
           ports:
             - containerPort: 8000
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
