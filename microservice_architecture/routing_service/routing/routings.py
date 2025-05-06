@@ -2,7 +2,7 @@ import osmnx as ox
 import pandas as pd
 import geopandas as gpd
 import os
-from routing.models import Disruption
+import requests
 
 PLACE = "Innere Stadt, Vienna, Austria"
 FILE_BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -83,7 +83,7 @@ def extract_coordinates_from_stops(stops):
 
 
 def get_current_disruptions():
-    return Disruption.objects.all()
+    return requests.get("http://db-abstraction-service.default.svc.cluster.local:80/api/disruptions/").json()
 
 
 def get_all_stops(bus, tram, subway):
@@ -112,8 +112,10 @@ def get_all_stops(bus, tram, subway):
 def filter_disrupted_stations(all_stops, stops_coordinates):
     """Filter out stations with disruptions."""
     disruptions = get_current_disruptions()
+    # station_name_disruptions = [
+    #     disruption.station_name for disruption in disruptions]
     station_name_disruptions = [
-        disruption.station_name for disruption in disruptions]
+        disruption["station_name"] for disruption in disruptions]
 
     indices_to_remove = [
         i for i in range(len(all_stops)) if all_stops.iloc[i]["name"] in station_name_disruptions

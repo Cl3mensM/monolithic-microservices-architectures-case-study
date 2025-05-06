@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: arrival-times-deployment
+  name: db-abstraction-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: arrival-times
+      app: db-abstraction
   template:
     metadata:
       labels:
-        app: arrival-times
+        app: db-abstraction
     spec:
       containers:
-        - name: arrival-times
-          image: arrival_times_service:latest
+        - name: db-abstraction
+          image: db-abstraction_service:latest
           imagePullPolicy: IfNotPresent
           # command: ["/bin/sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
-          command: ["/bin/sh", "-c", "python manage.py runserver 0.0.0.0:8000"]
+          command: ["/bin/sh", "-c", "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
           ports:
             - containerPort: 8000

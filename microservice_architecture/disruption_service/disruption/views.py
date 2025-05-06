@@ -1,9 +1,12 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from django.http import JsonResponse
-from disruption.models import Disruption
+import requests
+# from disruption.models import Disruption
 
 # Create your views here.
+
+url = "http://db-abstraction-service.default.svc.cluster.local:80/api/disruptions/"
 
 
 @api_view(['POST', 'GET'])
@@ -15,40 +18,10 @@ def disruption(request):
 
 
 def add_disruption(request):
-    try:
-        station_id = request.data['station_id']
-        station_name = request.data['station_name']
-        disruption_bool = request.data['disruption_bool']
-        disruption_text = request.data['disruption_text']
-        timestamp = request.data['timestamp']
-
-        # True if disruption is happening, False if disruption is resolved
-        if disruption_bool:
-            disruption = Disruption(station_id=station_id, station_name=station_name,
-                                    disruption_text=disruption_text, disruption_start=timestamp)
-            disruption.save()
-        else:
-            Disruption.objects.filter(station_id=station_id).delete()
-
-    except KeyError:
-        return JsonResponse({"status": "Bad Request, invalid request body."}, status=400)
-
-    return JsonResponse({"status": "Okay"}, status=200)
+    return_data = requests.post(url, json=request.data).json()
+    return JsonResponse(return_data, status=200)
 
 
 def get_disruption(request):
-    disruptions = Disruption.objects.all()
-
-    if disruptions.count() == 0:
-        return JsonResponse({"status": "Currently no disruptions!"}, status=200)
-
-    response = []
-    for disruption in disruptions:
-        response.append({
-            "station_id": disruption.station_id,
-            "station_name": disruption.station_name,
-            "disruption_text": disruption.disruption_text,
-            "timestamp": disruption.disruption_start
-        })
-
-    return JsonResponse(response, safe=False, status=200)
+    return_data = requests.get(url).json()
+    return JsonResponse(return_data, safe=False, status=200)

@@ -11,7 +11,6 @@ def stations(request):
         return JsonResponse({"status": "GET method not allowed for this endpoint."}, status=405)
 
 
-@api_view(['POST'])
 def arrival_times(request):
     try:
         station_id = request.data['station_id']
