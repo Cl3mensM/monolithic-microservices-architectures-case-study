@@ -83,7 +83,7 @@ def extract_coordinates_from_stops(stops):
 
 
 def get_current_disruptions():
-    return requests.get("http://db-abstraction-service.default.svc.cluster.local:80/api/disruptions/").json()
+    return requests.get("http://db-abstraction-service.default.svc.cluster.local:80/db/api/disruptions/").json()
 
 
 def get_all_stops(bus, tram, subway):

@@ -6,7 +6,7 @@ import requests
 
 # Create your views here.
 
-url = "http://db-abstraction-service.default.svc.cluster.local:80/api/disruptions/"
+url = "http://db-abstraction-service.default.svc.cluster.local:80/db/api/disruptions/"
 
 
 @api_view(['POST', 'GET'])
