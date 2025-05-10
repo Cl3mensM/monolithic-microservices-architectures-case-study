@@ -83,7 +83,7 @@ def extract_coordinates_from_stops(stops):
 
 
 def get_current_disruptions():
-    return requests.get("http://db-abstraction-service.default.svc.cluster.local:80/db/api/disruptions/").json()
+    return requests.get("http://disruption-service.default.svc.cluster.local:80/").json()
 
 
 def get_all_stops(bus, tram, subway):
@@ -112,10 +112,15 @@ def get_all_stops(bus, tram, subway):
 def filter_disrupted_stations(all_stops, stops_coordinates):
     """Filter out stations with disruptions."""
     disruptions = get_current_disruptions()
-    # station_name_disruptions = [
-    #     disruption.station_name for disruption in disruptions]
-    station_name_disruptions = [
-        disruption["station_name"] for disruption in disruptions]
+
+    # Check if disruptions is a list; otherwise it returns "Currently no disruptions!"
+    if isinstance(disruptions, list):
+        station_name_disruptions = [
+            disruption["station_name"] for disruption in disruptions
+        ]
+    else:
+        # No disruptions
+        return all_stops.reset_index(drop=True), stops_coordinates
 
     indices_to_remove = [
         i for i in range(len(all_stops)) if all_stops.iloc[i]["name"] in station_name_disruptions
