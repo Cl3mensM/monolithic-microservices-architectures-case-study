@@ -4,7 +4,6 @@ import json
 
 
 class PublicTransportUser(HttpUser):
-    # wait_time = between(1, 10)
     wait_time = constant(5)  # Wait for 5 second between tasks
 
     @task(5)
@@ -55,5 +54,3 @@ class AdminUser(HttpUser):
             data = self.disruptions_data[self.disruptions_sent]
             self.client.post("/disruptions/", json=data)
             self.disruptions_sent += 1
-        else:
-            self.environment.runner.quit()  # Optional: stop this user after 2 requests
