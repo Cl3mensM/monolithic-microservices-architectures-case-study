@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: routing-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: routing
+  template:
+    metadata:
+      labels:
+        app: routing
+    spec:
+      containers:
+        - name: routing
+          image: gcr.io/ba-microservice/routing_service-routing:latest
+          imagePullPolicy: IfNotPresent
+          # command: ["/bin/sh", "-c", "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+          command: ["/bin/sh", "-c", "python manage.py runserver 0.0.0.0:8000"]
+          ports:
+            - containerPort: 8000

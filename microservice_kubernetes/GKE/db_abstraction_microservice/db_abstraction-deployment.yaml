@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-abstraction-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-abstraction
+  template:
+    metadata:
+      labels:
+        app: db-abstraction
+    spec:
+      containers:
+        - name: db-abstraction
+          image: gcr.io/ba-microservice/db-abstraction_service:latest
+          imagePullPolicy: IfNotPresent
+          # command: ["/bin/sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+          command: ["/bin/sh", "-c", "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+          ports:
+            - containerPort: 8000
