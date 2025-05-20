@@ -15,7 +15,7 @@ spec:
       containers:
         - name: django
           image: gcr.io/ba-monolith/my-django-app:latest
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 8000
           command: ["/bin/sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
