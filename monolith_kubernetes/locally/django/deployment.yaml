@@ -15,7 +15,7 @@ spec:
       containers:
         - name: django
           # image: monolithic_architecture-web:latest
-          image: my-django-app:v2
+          image: my-django-app:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000
