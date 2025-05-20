@@ -18,11 +18,6 @@ GRAPH = ox.load_graphml(os.path.join(
     FILE_BASE_DIR, "map_data", "innere_stadt.graphml"))
 
 
-def load_from_map_data(filename):
-    """Load a file from the map_data folder."""
-    return os.path.join(FILE_BASE_DIR, "map_data", filename)
-
-
 def get_graph():
     return GRAPH
 
