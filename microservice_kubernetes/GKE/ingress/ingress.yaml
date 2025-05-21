@@ -1,40 +1,12 @@
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: routing-ingress
-#   annotations:
-#     kubernetes.io/ingress.class: "gce"
-# spec:
-#   rules:
-#     - http:
-#         paths:
-#           - path: /api/routes
-#             pathType: Prefix
-#             backend:
-#               service:
-#                 name: routing-service
-#                 port:
-#                   number: 80
-#           - path: /api/disruptions
-#             pathType: Prefix
-#             backend:
-#               service:
-#                 name: disruption-service
-#                 port:
-#                   number: 80
-#           - path: /api/stations
-#             pathType: Prefix
-#             backend:
-#               service:
-#                 name: arrival-times-service
-#                 port:
-#                   number: 80
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: routing-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
 spec:
   ingressClassName: nginx
   rules:
