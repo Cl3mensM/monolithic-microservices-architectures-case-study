@@ -32,11 +32,11 @@ gcloud container clusters create-auto microservice \
 gcloud container clusters get-credentials microservice \
     --region=europe-west4
 
-# Apply Ingress nginx controller
-echo "Apply Ingress nginx controller"
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.0/deploy/static/provider/cloud/deploy.yaml
-
 # Apply Kubernetes YAMLs
 echo "Apply Kubernetes YAMLs"
 cd ../../microservice_kubernetes/GKE
 find . -type f -name "*.yaml" -exec kubectl apply -f {} \;
+
+# Apply Ingress nginx controller
+echo "Apply Ingress nginx controller"
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.0/deploy/static/provider/cloud/deploy.yaml
