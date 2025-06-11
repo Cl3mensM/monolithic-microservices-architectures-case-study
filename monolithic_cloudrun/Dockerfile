@@ -6,4 +6,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD python manage.py migrate && python manage.py runserver 0.0.0.0:8000
+CMD bash -c "python manage.py migrate && gunicorn monolith.wsgi:application --bind 0.0.0.0:8000 --workers 4 --threads 8"
